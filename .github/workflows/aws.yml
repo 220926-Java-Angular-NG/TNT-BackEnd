@@ -37,7 +37,7 @@ env:
                                                # containerDefinitions section of your task definition
 
 permissions:
-  contents: read-write
+  contents: read
 
 jobs:
   deploy:
