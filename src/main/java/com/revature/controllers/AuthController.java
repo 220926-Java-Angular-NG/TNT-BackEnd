@@ -2,25 +2,27 @@ package com.revature.controllers;
 
 import com.revature.dtos.LoginRequest;
 import com.revature.dtos.RegisterRequest;
+import com.revature.models.Product;
 import com.revature.models.User;
 import com.revature.services.AuthService;
+import com.revature.services.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/auth")
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"}, allowCredentials = "true")
 public class AuthController {
 
     private final AuthService authService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
@@ -51,5 +53,10 @@ public class AuthController {
                 registerRequest.getLastName());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
+    }
+
+    @GetMapping("/featured")
+    public ResponseEntity<List<Product>> getAllFeaturedProducts(){
+        return ResponseEntity.status(HttpStatus.OK).body(authService.findAllByFeaturedTrue());
     }
 }
