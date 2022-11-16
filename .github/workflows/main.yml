@@ -1,0 +1,31 @@
+name: Build and push to Docker/EC2
+on:
+  push:
+    branches: [main]
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env: 
+      DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
+      DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      date: "`r format(Sys.time(), '%d %B, %Y')`"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker Login
+        run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Build Docker Image
+        run: docker build -t ${{ env.DOCKER_USER }}/tntbackend .
+      - name: Push to DockerHub
+        run: docker push ${{ env.DOCKER_USER }}/tntbackend
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            sudo docker pull ${{secrets.DOCKER_USERNAME}}/tntbackend
+            sudo docker stop tntbackend
+            sudo docker rm tntbackend
+            sudo docker run --detach --name tntbackend -p 80:8080 ${{secrets.DOCKER_USERNAME}}/tntbackend
