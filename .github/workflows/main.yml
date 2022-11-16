@@ -6,7 +6,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     env: 
-      DOCKER_USER: ${{secrets.DOCKER_USER}}
+      DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
       DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       date: "`r format(Sys.time(), '%d %B, %Y')`"
     steps:
@@ -20,12 +20,12 @@ jobs:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST }}
+          host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            sudo docker pull ${{secrets.DOCKER_USER}}/tntbackend
+            sudo docker pull ${{secrets.DOCKER_USERNAME}}/tntbackend
             sudo docker stop tntbackend
             sudo docker rm tntbackend
-            sudo docker run --detach --name tntbackend -p 80:8080 ${{secrets.DOCKER_USER}}/tntbackend
+            sudo docker run --detach --name tntbackend -p 80:8080 ${{secrets.DOCKER_USERNAME}}/tntbackend
