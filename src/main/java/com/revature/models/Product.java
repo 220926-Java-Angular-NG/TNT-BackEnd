@@ -1,16 +1,15 @@
 package com.revature.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Data
 @Entity
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product {
@@ -23,4 +22,5 @@ public class Product {
     private String description;
     private String image;
     private String name;
+    private boolean featured;
 }
