@@ -23,14 +23,20 @@ public class AuthService {
         return userService.save(user);
     }
 
-    public User changePassword(String email,String password,String newPassword){
+    public Optional<User> updatePassword(String email,String oldPassword,String newPassword){
         User user = userService.findUserByEmail(email);
 
-        if(password.equals(user.getPassword())){
+        if(oldPassword.equals(user.getPassword())){
             user.setPassword(newPassword);
-            return userService.save(user);
+            userService.save(user);
+            return userService.findByCredentials(email,newPassword);
+        }else {
+            return null;
         }
+    }
 
-        return null;
+    public User testChangePassword(String email,String oldPassword,String newPassword) throws Exception {
+        return updatePassword(email,oldPassword,newPassword)
+                .orElseThrow(() -> new Exception("Password not changed"));
     }
 }

@@ -54,9 +54,17 @@ public class AuthController {
     }
 
     @PostMapping("/change-password")
-    public User changePassword(String email,String oldPassword,String newPassword){
+    public ResponseEntity<User> changePassword(String email,String oldPassword,String newPassword,HttpSession session){
 
-       return authService.changePassword(email,oldPassword,newPassword);
 
+        Optional<User> optional = authService.updatePassword(email,oldPassword,newPassword);
+
+        if(!optional.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        session.setAttribute("user", optional.get());
+
+        return ResponseEntity.ok(optional.get());
     }
 }
