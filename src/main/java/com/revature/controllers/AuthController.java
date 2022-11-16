@@ -52,4 +52,11 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
     }
+
+    @PostMapping("/change-password")
+    public User changePassword(String email,String oldPassword,String newPassword){
+
+       return authService.changePassword(email,oldPassword,newPassword);
+
+    }
 }

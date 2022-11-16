@@ -22,4 +22,15 @@ public class AuthService {
     public User register(User user) {
         return userService.save(user);
     }
+
+    public User changePassword(String email,String password,String newPassword){
+        User user = userService.findUserByEmail(email);
+
+        if(password.equals(user.getPassword())){
+            user.setPassword(newPassword);
+            return userService.save(user);
+        }
+
+        return null;
+    }
 }
