@@ -5,9 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 
 @Data
-@Getter
-@Setter
 @Entity
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
@@ -16,6 +16,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(unique = true)
     private String email;
     private String password;
     private String firstName;
