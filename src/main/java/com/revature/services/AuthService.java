@@ -35,6 +35,9 @@ public class AuthService {
     public Optional<User> updatePassword(String email,String oldPassword,String newPassword){
         User user = userService.findUserByEmail(email);
 
+        System.out.println(oldPassword);
+        System.out.println(user.getPassword());
+
         if(oldPassword.equals(user.getPassword())){
             user.setPassword(newPassword);
             userService.save(user);

@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.dtos.ChangePasswordRequest;
 import com.revature.dtos.LoginRequest;
 import com.revature.dtos.RegisterRequest;
 import com.revature.models.Product;
@@ -62,12 +63,9 @@ public class AuthController {
 
     }
 
-    public User changePassword(String email,String oldPassword,String newPassword){
-        return authService.testChangePassword(email,oldPassword,newPassword);
-    }
 
 
-    @PostMapping("/change-password")
+    @PostMapping("/change-password-proto")
     public ResponseEntity<User> updatePassword(String email, String oldPassword, String newPassword,HttpSession session){
 
 
@@ -81,5 +79,15 @@ public class AuthController {
 
         return ResponseEntity.ok().build();
 
+    }
+
+    @PostMapping("/change-password")
+    public User changePassword(@RequestBody ChangePasswordRequest change){
+        System.out.println(change.getEmail());
+        System.out.println(change.getOldPassword());
+        System.out.println(change.getNewPassword());
+        System.out.println();
+
+        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
     }
 }
