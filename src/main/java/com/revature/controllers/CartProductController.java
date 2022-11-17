@@ -57,7 +57,7 @@ public class CartProductController {
     public boolean clearUserCart(@PathVariable int userId, HttpSession session) {
         User currUser = (User)session.getAttribute("user");
         if (currUser == null) return false;
-        if(currUser.getId() == userId) return false;
+        if(currUser.getId() != userId) return false;
         return cartProductService.clearCart(userId);
     }
 

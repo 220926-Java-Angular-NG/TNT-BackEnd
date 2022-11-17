@@ -46,11 +46,11 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpSession session) {
+    public ResponseEntity<Boolean> logout(HttpSession session) {
 //        System.out.println("HELLOP THERERER" + session.getAttribute("user"));
         session.removeAttribute("user");
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(true);
     }
 
 
