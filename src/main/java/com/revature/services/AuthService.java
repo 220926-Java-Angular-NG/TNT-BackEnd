@@ -24,7 +24,31 @@ public class AuthService {
         return userService.save(user);
     }
 
+<<<<<<< HEAD
     public List<Product> findAllByFeaturedTrue() {
         return productService.findAllByFeaturedTrue();
     }
+=======
+
+    // Start of change user password logic.
+
+    public Optional<User> updatePassword(String email,String oldPassword,String newPassword){
+        User user = userService.findUserByEmail(email);
+
+        if(oldPassword.equals(user.getPassword())){
+            user.setPassword(newPassword);
+            userService.save(user);
+            return userService.findByCredentials(email,newPassword);
+        }else {
+            return null;
+        }
+    }
+
+    public User testChangePassword(String email,String oldPassword,String newPassword){
+        return updatePassword(email,oldPassword,newPassword)
+                .orElseThrow(() -> new NullPointerException("User password could not be changed"));
+    }
+
+    //End of change user password logic.
+>>>>>>> resetPassword
 }
