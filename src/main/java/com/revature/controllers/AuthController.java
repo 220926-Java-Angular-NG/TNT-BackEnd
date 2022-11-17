@@ -53,8 +53,14 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
     }
 
+
+    public User changePassword(String email,String oldPassword,String newPassword){
+        return authService.testChangePassword(email,oldPassword,newPassword);
+    }
+
+
     @PostMapping("/change-password")
-    public ResponseEntity<User> changePassword(String email,String oldPassword,String newPassword,HttpSession session){
+    public ResponseEntity<User> updatePassword(String email,String oldPassword,String newPassword,HttpSession session){
 
 
         Optional<User> optional = authService.updatePassword(email,oldPassword,newPassword);
@@ -64,6 +70,7 @@ public class AuthController {
         }
 
         session.setAttribute("user", optional.get());
+
 
         return ResponseEntity.ok(optional.get());
     }

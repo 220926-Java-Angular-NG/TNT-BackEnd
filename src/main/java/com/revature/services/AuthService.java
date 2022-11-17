@@ -23,6 +23,9 @@ public class AuthService {
         return userService.save(user);
     }
 
+
+    // Start of change user password logic.
+
     public Optional<User> updatePassword(String email,String oldPassword,String newPassword){
         User user = userService.findUserByEmail(email);
 
@@ -35,8 +38,10 @@ public class AuthService {
         }
     }
 
-    public User testChangePassword(String email,String oldPassword,String newPassword) throws Exception {
+    public User testChangePassword(String email,String oldPassword,String newPassword){
         return updatePassword(email,oldPassword,newPassword)
-                .orElseThrow(() -> new Exception("Password not changed"));
+                .orElseThrow(() -> new NullPointerException("User password could not be changed"));
     }
+
+    //End of change user password logic.
 }
