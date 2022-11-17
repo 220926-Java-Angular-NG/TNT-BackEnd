@@ -69,9 +69,8 @@ public class AuthController {
             return ResponseEntity.badRequest().build();
         }
 
-        session.setAttribute("user", optional.get());
+        session.removeAttribute("user");
 
-
-        return ResponseEntity.ok(optional.get());
+        return ResponseEntity.ok().build();
     }
 }
