@@ -24,11 +24,11 @@ public class AuthService {
         return userService.save(user);
     }
 
-<<<<<<< HEAD
+
     public List<Product> findAllByFeaturedTrue() {
         return productService.findAllByFeaturedTrue();
     }
-=======
+
 
     // Start of change user password logic.
 
@@ -50,5 +50,5 @@ public class AuthService {
     }
 
     //End of change user password logic.
->>>>>>> resetPassword
+
 }

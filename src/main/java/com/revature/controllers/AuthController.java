@@ -55,11 +55,12 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
     }
 
-<<<<<<< HEAD
+
     @GetMapping("/featured")
-    public ResponseEntity<List<Product>> getAllFeaturedProducts(){
+    public ResponseEntity<List<Product>> getAllFeaturedProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(authService.findAllByFeaturedTrue());
-=======
+
+    }
 
     public User changePassword(String email,String oldPassword,String newPassword){
         return authService.testChangePassword(email,oldPassword,newPassword);
@@ -67,7 +68,7 @@ public class AuthController {
 
 
     @PostMapping("/change-password")
-    public ResponseEntity<User> updatePassword(String email,String oldPassword,String newPassword,HttpSession session){
+    public ResponseEntity<User> updatePassword(String email, String oldPassword, String newPassword,HttpSession session){
 
 
         Optional<User> optional = authService.updatePassword(email,oldPassword,newPassword);
@@ -79,6 +80,6 @@ public class AuthController {
         session.removeAttribute("user");
 
         return ResponseEntity.ok().build();
->>>>>>> resetPassword
+
     }
 }
