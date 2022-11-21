@@ -7,6 +7,7 @@ import com.revature.services.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,9 @@ public class ProductController {
 
     @Authorized
     @GetMapping
-    public ResponseEntity<List<Product>> getInventory() {
+    public ResponseEntity<List<Product>> getInventory(HttpSession session) {
+        // will print out the full user that requested this endpoint
+        System.out.println(session.getAttribute("user"));
         return ResponseEntity.ok(productService.findAll());
     }
 

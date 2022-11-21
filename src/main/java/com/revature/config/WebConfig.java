@@ -9,6 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
     @Bean
     public CookieSameSiteSupplier cookieSameSiteSupplier(){
-        return CookieSameSiteSupplier.ofStrict();
+        return CookieSameSiteSupplier.ofLax();
     }
 }
