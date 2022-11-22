@@ -1,8 +1,7 @@
-package com.revature.service;
+package com.revature.services;
 
 import com.revature.models.Product;
 import com.revature.repositories.ProductRepository;
-import com.revature.services.ProductService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-public class productServiceTests {
+public class ProductServiceTests {
 
     @InjectMocks
     private ProductService productService;
@@ -99,6 +98,16 @@ public class productServiceTests {
         Assertions.assertEquals(dbProduct.getName(), createdProduct.getName());
         Assertions.assertEquals(dbProduct.isFeatured(), createdProduct.isFeatured());
 
+    }
+
+    @Test
+    public void givenNull_findAllByFeaturedTrue_returnsProductList(){
+
+        Mockito.when(productRepository.findAllByFeaturedTrue()).thenReturn(products);
+
+        List<Product> newProducts = productService.findAllByFeaturedTrue();
+
+        Assertions.assertEquals(products, newProducts);
     }
 
 
