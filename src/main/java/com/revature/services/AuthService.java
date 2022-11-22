@@ -27,4 +27,6 @@ public class AuthService {
     public List<Product> findAllByFeaturedTrue() {
         return productService.findAllByFeaturedTrue();
     }
+
+
 }

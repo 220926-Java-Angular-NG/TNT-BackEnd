@@ -3,6 +3,7 @@ package com.revature.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Setter
@@ -21,4 +22,7 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
+
+    @OneToMany
+    private List<Product> wishList;
 }

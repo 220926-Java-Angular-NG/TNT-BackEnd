@@ -5,13 +5,13 @@ import com.revature.dtos.RegisterRequest;
 import com.revature.models.Product;
 import com.revature.models.User;
 import com.revature.services.AuthService;
-import com.revature.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,13 +50,21 @@ public class AuthController {
                 registerRequest.getEmail(),
                 registerRequest.getPassword(),
                 registerRequest.getFirstName(),
-                registerRequest.getLastName());
+                registerRequest.getLastName(),
+                new ArrayList<>());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
+    }
+
+    @PostMapping("/wishlist")
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(user));
     }
 
     @GetMapping("/featured")
     public ResponseEntity<List<Product>> getAllFeaturedProducts(){
         return ResponseEntity.status(HttpStatus.OK).body(authService.findAllByFeaturedTrue());
     }
+
+
 }
