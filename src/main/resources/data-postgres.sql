@@ -1,3 +1,4 @@
+DELETE FROM product WHERE id != 0;
 INSERT INTO product (id, quantity, price, description, image, name, featured) VALUES (
     1,
     10,
@@ -45,6 +46,7 @@ INSERT INTO product (id, quantity, price, description, image, name, featured) VA
 
 );
 
+DELETE FROM users WHERE id != 0;
 INSERT INTO users (id, email, password, first_name, last_name) VALUES (
     1,
     'testuser@gmail.com',
