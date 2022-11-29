@@ -29,6 +29,11 @@ public class AuthService {
         return productService.findAllByFeaturedTrue();
     }
 
+    // Find user by id is a helper method to update the user
+    public User findUserById(int id){
+        return userService.findUserById(id);
+    }
+
 
     // Start of change user password logic.
 
