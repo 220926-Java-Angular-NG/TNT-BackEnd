@@ -65,6 +65,33 @@ public class UserServiceTesting {
     }
 
 
+    @Test
+    public void givenNewUser_save_returnsCreatedEntity(){
+        Mockito.when(userRepository.save(newUser)).thenReturn(dbUser);
+
+        User createdUser = userService.save(newUser);
+
+        Assertions.assertEquals(dbUser.getId(), createdUser.getId());
+        Assertions.assertEquals(dbUser.getEmail(), createdUser.getEmail());
+        Assertions.assertEquals(dbUser.getPassword(), createdUser.getPassword());
+        Assertions.assertEquals(dbUser.getFirstName(), createdUser.getFirstName());
+        Assertions.assertEquals(dbUser.getLastName(), createdUser.getLastName());
+
+    }
+
+    @Test
+    public void givenEmail_findUserByEmail_returnsMatchingUser(){
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(dbUser);
+
+        User foundUser = userService.findUserByEmail(email);
+
+        Assertions.assertEquals(dbUser.getId(), foundUser.getId());
+        Assertions.assertEquals(dbUser.getEmail(), foundUser.getEmail());
+        Assertions.assertEquals(dbUser.getPassword(), foundUser.getPassword());
+        Assertions.assertEquals(dbUser.getFirstName(), foundUser.getFirstName());
+        Assertions.assertEquals(dbUser.getLastName(), foundUser.getLastName());
+
+    }
 
 
 
