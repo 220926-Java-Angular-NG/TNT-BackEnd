@@ -74,6 +74,7 @@ public class AuthController {
         int userId = user.getId();
         User dbUser = authService.findUserById(userId);
         dbUser.setWishList(user.getWishList());
+        authService.register(dbUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(dbUser);
     }
 
