@@ -71,7 +71,10 @@ public class AuthController {
 
     @PostMapping("/wishlist")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(user));
+        int userId = user.getId();
+        User dbUser = authService.findUserById(userId);
+        dbUser.setWishList(user.getWishList());
+        return ResponseEntity.status(HttpStatus.CREATED).body(dbUser);
     }
 
 
