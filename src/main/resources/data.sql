@@ -1,4 +1,5 @@
-INSERT INTO product (id, quantity, price, description, image, name, featured) VALUES (
+INSERT INTO product (id, quantity, price, description, image, name, featured) VALUES
+(
     1,
     4,
     36.79,
@@ -130,7 +131,7 @@ INSERT INTO product (id, quantity, price, description, image, name, featured) VA
     4.00,
     'Swagarelli Pizza Plushie!!! For your beloved pooches',
     'https://s7d2.scene7.com/is/image/PetSmart/5308443?$sclp-prd-main_large$',
-    "Dog Plushie",
+    'Dog Plushie',
     true
 ),
 (
@@ -182,7 +183,7 @@ INSERT INTO product (id, quantity, price, description, image, name, featured) VA
     20,
     20,
     12.99,
-    'Delicious Chicken Patte for a Finicky Feline',
+    'Delicious Chicken Pâté for a Finicky Feline',
     'https://th.bing.com/th/id/OIP.6uC4PqVfV5Rie7Q5QLPd5gHaE5?w=305&h=202&c=7&r=0&o=5&pid=1.7',
     'Cat food 12 cans',
     false
