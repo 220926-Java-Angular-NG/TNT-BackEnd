@@ -187,6 +187,78 @@ INSERT INTO product (id, quantity, price, description, image, name, featured) VA
     'https://th.bing.com/th/id/OIP.6uC4PqVfV5Rie7Q5QLPd5gHaE5?w=305&h=202&c=7&r=0&o=5&pid=1.7',
     'Cat food 12 cans',
     false
+),
+(
+    21,
+    5,
+    16.99,
+    'Cat Grass Garden Kit',
+    'https://s7d2.scene7.com/is/image/PetSmart/5210752?$sclp-prd-main_large$',
+    'Grass Garden for Felines',
+    true
+),
+(
+    22,
+    7,
+    150.99,
+    'Self Cleaning Litter Box for Multiple Cats',
+    'https://s7d2.scene7.com/is/image/PetSmart/5296211?$sclp-prd-main_large$',
+    'Litter Box',
+    false
+),
+(
+    23,
+    10,
+    24.59,
+    'Big Cat or Small Dog Large 4-way Door Flap',
+    'https://s7d2.scene7.com/is/image/PetSmart/5143395?$sclp-prd-main_large$',
+    'Door Flap',
+    false
+),
+(
+    24,
+    5,
+    100.99,
+    '60-in Playbox, Ball Track with Scratcher Toys Cat Tree, Linen',
+    'https://s7d2.scene7.com/is/image/PetSmart/5305518?$sclp-prd-main_large$',
+    'Cat Tree with Toys',
+    false
+),
+(
+    25,
+    25,
+    9.99,
+    'Natural Teaser Cat Toys - 3 Pack',
+    'https://s7d2.scene7.com/is/image/PetSmart/5287715?$sclp-prd-main_large$',
+    'Cat Toys',
+    false
+),
+(
+    26,
+    100,
+    5.99,
+    'Twintail Halfmoon Male Betta Fish',
+    'https://s7d2.scene7.com/is/image/PetSmart/5176098?$sclp-prd-main_large$',
+    'TwinTail HalfMoon Fish',
+    false
+),
+(
+    27,
+    4,
+    30.50,
+    'Half Moon Aquarium - 3.5 Gallon',
+    'https://s7d2.scene7.com/is/image/PetSmart/5253372?$sclp-prd-main_large$',
+    'Small Aquarium',
+    false
+),
+(
+    28,
+    15,
+    3.99,
+    'Full Cheeks Small Pet Hay Sticks - Treats and Chews',
+    'https://s7d2.scene7.com/is/image/PetSmart/5319152?$sclp-prd-main_large$',
+    'Hamster Food',
+    false
 );
 
 
