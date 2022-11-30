@@ -123,6 +123,69 @@ INSERT INTO product (id, quantity, price, description, image, name, featured) VA
     'Iguana Pellet Food',
     false
 
+),
+(
+    14,
+    8,
+    4.00,
+    'Swagarelli Pizza Plushie!!! For your beloved pooches',
+    'https://s7d2.scene7.com/is/image/PetSmart/5308443?$sclp-prd-main_large$',
+    "Dog Plushie",
+    true
+),
+(
+    15,
+    10,
+    120.00,
+    'If you have a pony sized doggo, this crate is a must!',
+    'https://s7d2.scene7.com/is/image/PetSmart/5309334?$sclp-prd-main_large$',
+    'Extra Large Dog Crate',
+    false
+),
+(
+    16,
+    15,
+    25.00,
+    'Nutritious and Delicious Dry Dog Food for Adult Dog of All Sizes',
+    'https://th.bing.com/th/id/OIP.LIc8TtRrrH3w0dykquCrjQHaE8?w=282&h=188&c=7&r=0&o=5&pid=1.7',
+    '15-lb bag of Dry Dog Food',
+    false
+),
+(
+    17,
+    25,
+    6.99,
+    'Large Christmas Cookie Paw and Bone Dog Treat',
+    'https://s7d2.scene7.com/is/image/PetSmart/5332272?$sclp-prd-main_large$',
+    'Paw and Bone Dog Treat',
+    false
+),
+(
+    18,
+    17,
+    39.99,
+    'Floating Gold Stainless Steel Dog Bowls & Black Stand',
+    'https://s7d2.scene7.com/is/image/PetSmart/5312307?$sclp-prd-main_large$',
+    'Stand with Bowls',
+    false
+),
+(
+    19,
+    25,
+    12.99,
+    'Pin and Bristle Combo Pet Brush',
+    'https://s7d2.scene7.com/is/image/PetSmart/5295655?$sclp-prd-main_large$',
+    'Pet Brush',
+    false
+),
+(
+    20,
+    20,
+    12.99,
+    'Delicious Chicken Patte for a Finicky Feline',
+    'https://th.bing.com/th/id/OIP.6uC4PqVfV5Rie7Q5QLPd5gHaE5?w=305&h=202&c=7&r=0&o=5&pid=1.7',
+    'Cat food 12 cans',
+    false
 );
 
 

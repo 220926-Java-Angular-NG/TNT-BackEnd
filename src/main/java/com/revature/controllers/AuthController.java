@@ -104,15 +104,15 @@ public class AuthController {
     }
 
     /*
-    @PostMapping("/change-password")
-    public User changePassword(@RequestBody ChangePasswordRequest change){
-        System.out.println(change.getEmail());
-        System.out.println(change.getOldPassword());
-        System.out.println(change.getNewPassword());
-        System.out.println();
-
-        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
-    }
+//    @PostMapping("/change-password")
+//    public User changePassword(@RequestBody ChangePasswordRequest change){
+//        System.out.println(change.getEmail());
+//        System.out.println(change.getOldPassword());
+//        System.out.println(change.getNewPassword());
+//        System.out.println();
+//
+//        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
+//    }
     */
 
 }

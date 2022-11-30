@@ -117,7 +117,7 @@ public class AuthServiceTesting {
     }
 
     @Test
-    public void GivenEmailAndPasswordAndNewPassword_updatePassword_returnsOptUser(){
+    public void givenEmailAndPasswordAndNewPassword_updatePassword_returnsOptUser(){
         Mockito.when(userService.findUserByEmail(email)).thenReturn(dbUser);
         Mockito.when(userService.save(dbUser)).thenReturn(upDbUser);
         Mockito.when(userService.findByCredentials(email,newPassword)).thenReturn(optUpDbUser);
@@ -133,7 +133,7 @@ public class AuthServiceTesting {
     }
 
     @Test
-    public void GivenEmailAndWrongPasswordAndNewPassword_updatePassword_returnsNull() {
+    public void givenEmailAndWrongPasswordAndNewPassword_updatePassword_returnsNull() {
         Mockito.when(userService.findUserByEmail(email)).thenReturn(dbUser);
         Mockito.when(userService.save(dbUser)).thenReturn(upDbUser);
         Mockito.when(userService.findByCredentials(email, newPassword)).thenReturn(optUpDbUser);
