@@ -103,6 +103,7 @@ public class AuthController {
 
     }
 
+    /*
     @PostMapping("/change-password")
     public User changePassword(@RequestBody ChangePasswordRequest change){
         System.out.println(change.getEmail());
@@ -112,6 +113,6 @@ public class AuthController {
 
         return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
     }
-
+    */
 
 }
