@@ -2,20 +2,19 @@ package com.revature.controllers;
 
 
 import com.revature.dtos.ChangePasswordRequest;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.dtos.LoginRequest;
-import com.revature.dtos.RegisterRequest;
+import com.revature.dtos.login.LoginRequest;
+import com.revature.dtos.registration.RegisterRequest;
+import com.revature.dtos.registration.RegistrationResponse;
 import com.revature.models.Product;
 import com.revature.models.User;
 import com.revature.services.AuthService;
+import com.revature.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +25,8 @@ import java.util.Optional;
 public class AuthController {
 
     private final AuthService authService;
-    private final ObjectMapper objectMapper;
+    private final UserService userService;
+
 
 
     @PostMapping("/login")
@@ -58,15 +58,9 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest registerRequest) {
-        User created = new User(0,
-                registerRequest.getEmail(),
-                registerRequest.getPassword(),
-                registerRequest.getFirstName(),
-                registerRequest.getLastName(),
-                new ArrayList<>());
+    public ResponseEntity<RegistrationResponse> register(@RequestBody RegisterRequest registerRequest) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequest));
     }
 
     @PostMapping("/wishlist")
@@ -74,7 +68,7 @@ public class AuthController {
         int userId = user.getId();
         User dbUser = authService.findUserById(userId);
         dbUser.setWishList(user.getWishList());
-        authService.register(dbUser);
+        userService.save(dbUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(dbUser);
     }
 
