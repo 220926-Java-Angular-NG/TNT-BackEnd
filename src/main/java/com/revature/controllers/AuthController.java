@@ -40,7 +40,7 @@ public class AuthController {
 
         // get current user, from users session cookie, and convert it to a User object
         User currUser = (User)session.getAttribute("user");
-        // now have access to all of users information
+        // now have access to all of user's information
         System.out.println(currUser.getId() + currUser.getEmail());
 
 
