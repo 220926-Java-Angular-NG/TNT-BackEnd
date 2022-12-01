@@ -6,6 +6,7 @@ import com.revature.services.UserService;
 import com.revature.util.JWTRequestFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,11 +19,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JWTRequestFilter jwtFilter;
+
     private final AuthService authService;
+
+    public SecurityConfig(@Lazy JWTRequestFilter jwtFilter, @Lazy AuthService authService) {
+        this.jwtFilter = jwtFilter;
+        this.authService = authService;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

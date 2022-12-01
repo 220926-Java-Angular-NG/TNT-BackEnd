@@ -40,7 +40,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // load the user from the database
-            User user = (User) userService.loadUserByUsername(email);
+            User user = userService.findUserByEmail(email);
 
             // if the token is valid
             if (jwtService.validateToken(token, user)) {
