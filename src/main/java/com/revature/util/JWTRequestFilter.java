@@ -56,5 +56,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
             }
         }
 
+        filterChain.doFilter(request, response);
+
     }
 }

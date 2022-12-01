@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,16 +25,22 @@ public class User implements UserDetails {
 
     @Column(unique = true)
     private String email;
+
     private String password;
+
     private String firstName;
+
     private String lastName;
 
     @OneToMany
     private List<Product> wishList;
 
+
     private Authority authority = Authority.USER;
 
+
     private Boolean isActive = true;
+
 
     public enum Authority{
         USER, ADMIN

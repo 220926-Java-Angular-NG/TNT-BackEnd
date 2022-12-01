@@ -3,8 +3,8 @@ package com.revature.controllers;
 
 import com.revature.dtos.ChangePasswordRequest;
 import com.revature.dtos.login.LoginRequest;
+import com.revature.dtos.login.LoginResponse;
 import com.revature.dtos.registration.RegisterRequest;
-import com.revature.dtos.registration.RegistrationResponse;
 import com.revature.models.Product;
 import com.revature.models.User;
 import com.revature.services.AuthService;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"}, allowCredentials = "true")
+//@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"}, allowCredentials = "true")
 public class AuthController {
 
     private final AuthService authService;
@@ -30,8 +30,8 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
-        Optional<User> optional = authService.findByCredentials(loginRequest.getEmail(), loginRequest.getPassword());
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
+        Optional<LoginResponse> optional = authService.userLogin(loginRequest);
         if(!optional.isPresent()) {
             return ResponseEntity.badRequest().build();
         }
@@ -39,9 +39,6 @@ public class AuthController {
         session.setAttribute("user", optional.get());
 
         // get current user, from users session cookie, and convert it to a User object
-        User currUser = (User)session.getAttribute("user");
-        // now have access to all of users information
-        System.out.println(currUser.getId() + currUser.getEmail());
 
 
         return ResponseEntity.ok(optional.get());
@@ -58,8 +55,7 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<RegistrationResponse> register(@RequestBody RegisterRequest registerRequest) {
-
+    public ResponseEntity<Boolean> register(@RequestBody RegisterRequest registerRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequest));
     }
 

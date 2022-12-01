@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dtos.login.LoginRequest;
 import com.revature.dtos.login.LoginResponse;
 import com.revature.dtos.registration.RegisterRequest;
-import com.revature.dtos.registration.RegistrationResponse;
 import com.revature.models.Product;
 import com.revature.models.User;
 import lombok.RequiredArgsConstructor;
@@ -35,27 +34,49 @@ public class AuthService  implements UserDetailsService {
     }
 
     //Start of registration methods.
-    public RegistrationResponse register(RegisterRequest registerRequest) {
+    public Boolean register(RegisterRequest registerRequest) {
         String password = registerRequest.getPassword();
         password = passwordEncoder.encode(password);
         registerRequest.setPassword(password);
         User user = objectMapper.convertValue(registerRequest, User.class);
-        return generateRegisterResponse(userService.save(user));
+        user = userService.save(user);
+        return (user.getId() != 0);
     }
 
-    private RegistrationResponse generateRegisterResponse(User user){
-        return objectMapper.convertValue(user,RegistrationResponse.class);
-    }
     //End of registration methods.
 
 
     //Start of login methods.
-    public LoginResponse userLogin(LoginRequest loginRequest){
-        authManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginRequest.getEmail(),loginRequest.getPassword()
-        ));
+    public Optional<LoginResponse> userLogin(LoginRequest loginRequest){
+        String password = loginRequest.getPassword();
+        //password = passwordEncoder.encode(password);
+        //loginRequest.setPassword(password);
 
-        return null;
+
+
+        Optional<LoginResponse> logIn;
+        User user = userService.findUserByEmail(loginRequest.getEmail());
+        System.out.println();
+
+
+        if(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())){
+            logIn = Optional.of(generateLoginResponse(user));
+        }else{
+            logIn = Optional.empty();
+        }
+        return logIn;
+    }
+
+    private LoginResponse generateLoginResponse(User user){
+        String token = jwtService.generateToken(user);
+        LoginResponse logIn = new LoginResponse();
+        logIn.setId(user.getId());
+        logIn.setEmail(user.getEmail());
+        logIn.setFirstName(user.getFirstName());
+        logIn.setLastName(user.getLastName());
+        logIn.setWishList(user.getWishList());
+        logIn.setToken(token);
+        return logIn;
     }
     //End of login methods.
 
