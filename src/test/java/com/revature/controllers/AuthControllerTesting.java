@@ -70,7 +70,7 @@ public class AuthControllerTesting {
         newUser.setPassword(password);
         newUser.setFirstName(firstName);
         newUser.setLastName(lastName);
-//        newUser.setWishList(wishlist);
+        newUser.setWishList(wishlist);
 
         dbUser = new User();
         dbUser.setId(1);
