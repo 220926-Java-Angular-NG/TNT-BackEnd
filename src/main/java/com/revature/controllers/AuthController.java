@@ -21,7 +21,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-//@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"}, allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:3000"}, allowCredentials = "true")
 public class AuthController {
 
     private final AuthService authService;
@@ -39,6 +39,12 @@ public class AuthController {
         session.setAttribute("user", optional.get());
 
         // get current user, from users session cookie, and convert it to a User object
+//<<<<<<< HEAD
+//=======
+//        User currUser = (User)session.getAttribute("user");
+//        // now have access to all of user's information
+//        System.out.println(currUser.getId() + currUser.getEmail());
+//>>>>>>> origin/Dev
 
 
         return ResponseEntity.ok(optional.get());
@@ -56,6 +62,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Boolean> register(@RequestBody RegisterRequest registerRequest) {
+        System.out.println(registerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequest));
     }
 
@@ -93,15 +100,17 @@ public class AuthController {
 
     }
 
-    @PostMapping("/change-password")
-    public User changePassword(@RequestBody ChangePasswordRequest change){
-        System.out.println(change.getEmail());
-        System.out.println(change.getOldPassword());
-        System.out.println(change.getNewPassword());
-        System.out.println();
 
-        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
-    }
-
+    /*
+//    @PostMapping("/change-password")
+//    public User changePassword(@RequestBody ChangePasswordRequest change){
+//        System.out.println(change.getEmail());
+//        System.out.println(change.getOldPassword());
+//        System.out.println(change.getNewPassword());
+//        System.out.println();
+//
+//        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
+//    }
+    */
 
 }

@@ -33,6 +33,7 @@ public class JWTRequestFilter extends OncePerRequestFilter {
         String email = null;
 
         if (authorizationHeader != null) {
+            System.out.println("HERER IS THE HEADERERERERERERE: " + authorizationHeader);
             token = authorizationHeader.substring(7);
             // figure out who the user is that is requesting access to a resource
             email = jwtService.extractEmail(token);
