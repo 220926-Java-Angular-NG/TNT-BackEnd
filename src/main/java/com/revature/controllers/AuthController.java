@@ -40,7 +40,7 @@ public class AuthController {
 
         // get current user, from users session cookie, and convert it to a User object
         User currUser = (User)session.getAttribute("user");
-        // now have access to all of users information
+        // now have access to all of user's information
         System.out.println(currUser.getId() + currUser.getEmail());
 
 
@@ -103,15 +103,17 @@ public class AuthController {
 
     }
 
-    @PostMapping("/change-password")
-    public User changePassword(@RequestBody ChangePasswordRequest change){
-        System.out.println(change.getEmail());
-        System.out.println(change.getOldPassword());
-        System.out.println(change.getNewPassword());
-        System.out.println();
 
-        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
-    }
-
+    /*
+//    @PostMapping("/change-password")
+//    public User changePassword(@RequestBody ChangePasswordRequest change){
+//        System.out.println(change.getEmail());
+//        System.out.println(change.getOldPassword());
+//        System.out.println(change.getNewPassword());
+//        System.out.println();
+//
+//        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
+//    }
+    */
 
 }

@@ -52,10 +52,10 @@ public class AuthService {
         }
     }
 
-    public User testChangePassword(String email,String oldPassword,String newPassword){
-        return updatePassword(email,oldPassword,newPassword)
-                .orElseThrow(() -> new NullPointerException("User password could not be changed"));
-    }
+//    public User testChangePassword(String email,String oldPassword,String newPassword){
+//        return updatePassword(email,oldPassword,newPassword)
+//                .orElseThrow(() -> new NullPointerException("User password could not be changed"));
+//    }
 
     //End of change user password logic.
 
