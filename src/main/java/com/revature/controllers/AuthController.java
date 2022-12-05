@@ -85,7 +85,7 @@ public class AuthController {
 
 
     @PostMapping("/change-password-proto")
-    public ResponseEntity<User> updatePassword(String email, String oldPassword, String newPassword,HttpSession session){
+    public ResponseEntity<User> updatePassword(String email, String oldPassword, String newPassword){
 
 
         Optional<User> optional = authService.updatePassword(email,oldPassword,newPassword);
@@ -94,7 +94,7 @@ public class AuthController {
             return ResponseEntity.badRequest().build();
         }
 
-        session.removeAttribute("user");
+//        session.removeAttribute("user");
 
         return ResponseEntity.ok().build();
 
@@ -102,15 +102,15 @@ public class AuthController {
 
 
     /*
-//    @PostMapping("/change-password")
-//    public User changePassword(@RequestBody ChangePasswordRequest change){
-//        System.out.println(change.getEmail());
-//        System.out.println(change.getOldPassword());
-//        System.out.println(change.getNewPassword());
-//        System.out.println();
-//
-//        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
-//    }
+    @PostMapping("/change-password")
+    public User changePassword(@RequestBody ChangePasswordRequest change){
+        System.out.println(change.getEmail());
+        System.out.println(change.getOldPassword());
+        System.out.println(change.getNewPassword());
+        System.out.println();
+
+        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
+    }
     */
 
 }
