@@ -112,7 +112,7 @@ public class ProductControllerTesting {
     public void givenSession_getInventory_returnsResponseEntityOfListOfProducts(){
         Mockito.when(productService.findAll()).thenReturn(products);
 
-        ResponseEntity<List<Product>> returnedList = productController.getInventory(session);
+        ResponseEntity<List<Product>> returnedList = productController.getInventory();
 
         Assertions.assertEquals(ResponseEntity.ok(products), returnedList);
     }

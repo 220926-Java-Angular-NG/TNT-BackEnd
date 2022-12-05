@@ -31,6 +31,9 @@ public class AuthService  implements UserDetailsService {
     private final JWTService jwtService;
     private final PasswordEncoder passwordEncoder;
 
+
+
+
     public Optional<User> findByCredentials(String email, String password) {
         return userService.findByCredentials(email, password);
     }

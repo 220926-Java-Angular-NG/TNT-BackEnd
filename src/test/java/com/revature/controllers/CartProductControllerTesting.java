@@ -103,13 +103,13 @@ public class CartProductControllerTesting {
     public void givenUserIdHttpSession_getCartWithUserId_returnsRequestedEntity(){
         Mockito.when(cartProductService.findAllWithUserId(userId)).thenReturn(cart);
 
-        List<CartProduct> returnedCart = cartProductController.getCartWithUserId(userId,session);
+        ResponseEntity<List<CartProduct>> returnedCart = cartProductController.getCartWithUserId(userId);
 
         for (int i=0; i<cart.size();i++){
-            Assertions.assertEquals(cart.get(i).getId(), returnedCart.get(i).getId());
-            Assertions.assertEquals(cart.get(i).getQuantity(), returnedCart.get(i).getQuantity());
-            Assertions.assertEquals(cart.get(i).getProduct().getId(), returnedCart.get(i).getProduct().getId());
-            Assertions.assertEquals(cart.get(i).getUser().getId(), returnedCart.get(i).getUser().getId());
+            Assertions.assertEquals(cart.get(i).getId(), returnedCart.getBody().get(i).getId());
+            Assertions.assertEquals(cart.get(i).getQuantity(), returnedCart.getBody().get(i).getQuantity());
+            Assertions.assertEquals(cart.get(i).getProduct().getId(), returnedCart.getBody().get(i).getProduct().getId());
+            Assertions.assertEquals(cart.get(i).getUser().getId(), returnedCart.getBody().get(i).getUser().getId());
         }
     }
 
@@ -117,7 +117,7 @@ public class CartProductControllerTesting {
     public void givenCartProductAndSession_createCart_returnsResponseEntityOfCartProduct(){
         Mockito.when(cartProductService.createCartProduct(cartProduct1)).thenReturn(dbCartProduct1);
 
-        ResponseEntity<CartProduct> responseEntity = cartProductController.createCart(cartProduct1, session);
+        ResponseEntity<CartProduct> responseEntity = cartProductController.createCart(cartProduct1);
 
         CartProduct returnedCartProduct = responseEntity.getBody();
 
@@ -139,7 +139,7 @@ public class CartProductControllerTesting {
         Mockito.when(cartProductService.findCartById(cartProduct1Id)).thenReturn(dbCartProduct1);
         Mockito.when(cartProductService.updateCartQuantity(dbCartProduct1,quantityUpdate)).thenReturn(dBUpdatedCartProduct);
 
-        CartProduct returnedCartProduct = cartProductController.updateCartQuantity(cartProduct1Id,quantityUpdate,session);
+        CartProduct returnedCartProduct = cartProductController.updateCartQuantity(cartProduct1Id,quantityUpdate);
 
         Assertions.assertEquals(dbCartProduct1.getId(), returnedCartProduct.getId());
         Assertions.assertEquals(quantityUpdate, returnedCartProduct.getQuantity());
@@ -162,7 +162,7 @@ public class CartProductControllerTesting {
     public void givenUserIdAndSession_clearUserCart_returnsTrue(){
         Mockito.when(cartProductService.clearCart(userId)).thenReturn(true);
 
-        boolean response = cartProductController.clearUserCart(userId,session);
+        boolean response = cartProductController.clearUserCart(userId);
 
         Assertions.assertEquals(true, response);
     }
@@ -173,7 +173,7 @@ public class CartProductControllerTesting {
 
         session.setAttribute("user", null);
 
-        boolean response = cartProductController.clearUserCart(userId,session);
+        boolean response = cartProductController.clearUserCart(userId);
 
         Assertions.assertEquals(false, response);
     }
@@ -183,7 +183,7 @@ public class CartProductControllerTesting {
     public void givenWrongUserIdAndSession_clearUserCart_returnsTrue(){
         Mockito.when(cartProductService.clearCart(3)).thenReturn(false);
 
-        boolean response = cartProductController.clearUserCart(3,session);
+        boolean response = cartProductController.clearUserCart(3);
 
         Assertions.assertEquals(false, response);
     }

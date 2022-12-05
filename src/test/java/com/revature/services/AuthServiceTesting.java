@@ -1,5 +1,8 @@
 package com.revature.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.dtos.ChangePasswordRequest;
+import com.revature.dtos.registration.RegisterRequest;
 import com.revature.models.Product;
 import com.revature.models.User;
 import com.revature.repositories.UserRepository;
@@ -10,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,12 +27,19 @@ public class AuthServiceTesting {
     private UserService userService;
     @Mock
     private ProductService productService;
+    @Mock
+    private PasswordEncoder passwordEncoder;
+    @Mock
+    private ObjectMapper objectMapper;
 
     private User newUser;
     private User dbUser;
     private Optional<User> optDbUser;
     private User upDbUser;
     private Optional<User> optUpDbUser;
+    private RegisterRequest registerRequest;
+    private ChangePasswordRequest changePasswordRequest;
+    private ChangePasswordRequest badChangePasswordRequest;
 
     private int id = 1;
     private String email = "bigboy@sally.forth";
@@ -38,6 +49,8 @@ public class AuthServiceTesting {
     private String firstName = "Grimbo";
     private String lastName = "McFulstrom";
     private List<Product> products;
+    private Boolean aBoolean = true;
+    private Boolean nayBoolen = false;
 
 
     @BeforeEach
@@ -52,7 +65,7 @@ public class AuthServiceTesting {
         dbUser = new User();
         dbUser.setId(id);
         dbUser.setEmail(email);
-        dbUser.setPassword(password);
+        dbUser.setPassword(passwordEncoder.encode(password));
         dbUser.setFirstName(firstName);
         dbUser.setLastName(lastName);
         optDbUser = Optional.ofNullable(dbUser);
@@ -64,6 +77,19 @@ public class AuthServiceTesting {
         upDbUser.setFirstName(firstName);
         upDbUser.setLastName(lastName);
         optUpDbUser = Optional.ofNullable(upDbUser);
+
+        registerRequest = new RegisterRequest();
+        registerRequest.setEmail(email);
+        registerRequest.setPassword(password);
+        registerRequest.setFirstName(firstName);
+        registerRequest.setLastName(lastName);
+
+        changePasswordRequest = new ChangePasswordRequest();
+        changePasswordRequest.setEmail(email);
+        changePasswordRequest.setOldPassword(password);
+        changePasswordRequest.setNewPassword(newPassword);
+        badChangePasswordRequest = changePasswordRequest;
+        badChangePasswordRequest.setOldPassword(wrongPassword);
     }
 
     @Test
@@ -81,17 +107,17 @@ public class AuthServiceTesting {
 
     @Test
     public void givenNewUser_register_returnsCreatedEntity(){
+        Mockito.when(passwordEncoder.encode(password)).thenReturn(password);
+        Mockito.when(objectMapper.convertValue(registerRequest, User.class)).thenReturn(newUser);
         Mockito.when(userService.save(newUser)).thenReturn(dbUser);
 
-        User createdUser = authService.register(newUser);
+        Boolean returnedValue = authService.register(registerRequest);
 
-        Assertions.assertEquals(dbUser.getId(), createdUser.getId());
-        Assertions.assertEquals(dbUser.getEmail(), createdUser.getEmail());
-        Assertions.assertEquals(dbUser.getPassword(), createdUser.getPassword());
-        Assertions.assertEquals(dbUser.getFirstName(), createdUser.getFirstName());
-        Assertions.assertEquals(dbUser.getLastName(), createdUser.getLastName());
+        Assertions.assertEquals(aBoolean, returnedValue);
 
     }
+
+
 
     @Test
     public void givenNull_findAllByFeaturedTrue_returnsListOfProducts(){
@@ -116,31 +142,36 @@ public class AuthServiceTesting {
 
     }
 
+//    @Test
+//    public void givenEmailAndPasswordAndNewPassword_updatePassword_returnsOptTrue(){
+//        Mockito.when(userService.findUserByEmail(email)).thenReturn(dbUser);
+//        Mockito.when(passwordEncoder.matches(password,dbUser.getPassword())).thenReturn(true);
+//        Mockito.when(passwordEncoder.encode(newPassword)).thenReturn(newPassword);
+//        Mockito.when(userService.save(upDbUser)).thenReturn(upDbUser);
+////        Mockito.when(userService.findByCredentials(email,newPassword)).thenReturn(optUpDbUser);
+//
+//        Optional<Boolean> returnedValue = authService.updatePassword(changePasswordRequest);
+//
+//        Assertions.assertEquals(Optional.of(aBoolean), returnedValue);
+//
+//    }
+
+
+
+
+
     @Test
-    public void givenEmailAndPasswordAndNewPassword_updatePassword_returnsOptUser(){
+    public void givenEmailAndWrongPasswordAndNewPassword_updatePassword_returnsOptFalse() {
+
         Mockito.when(userService.findUserByEmail(email)).thenReturn(dbUser);
-        Mockito.when(userService.save(dbUser)).thenReturn(upDbUser);
-        Mockito.when(userService.findByCredentials(email,newPassword)).thenReturn(optUpDbUser);
+        Mockito.when(passwordEncoder.matches(wrongPassword,password)).thenReturn(false);
+        Mockito.when(passwordEncoder.encode(newPassword)).thenReturn(newPassword);
+//        Mockito.when(userService.save(dbUser)).thenReturn(upDbUser);
+//        Mockito.when(userService.findByCredentials(email, newPassword)).thenReturn(optUpDbUser);
 
-        Optional<User> returnedUser = authService.updatePassword(email,password,newPassword);
+        Optional<Boolean> returnedValue = authService.updatePassword(badChangePasswordRequest);
 
-        Assertions.assertEquals(optUpDbUser.get().getId(), returnedUser.get().getId());
-        Assertions.assertEquals(optUpDbUser.get().getEmail(), returnedUser.get().getEmail());
-        Assertions.assertEquals(optUpDbUser.get().getPassword(), returnedUser.get().getPassword());
-        Assertions.assertEquals(optUpDbUser.get().getFirstName(), returnedUser.get().getFirstName());
-        Assertions.assertEquals(optUpDbUser.get().getLastName(), returnedUser.get().getLastName());
-
-    }
-
-    @Test
-    public void givenEmailAndWrongPasswordAndNewPassword_updatePassword_returnsNull() {
-        Mockito.when(userService.findUserByEmail(email)).thenReturn(dbUser);
-        Mockito.when(userService.save(dbUser)).thenReturn(upDbUser);
-        Mockito.when(userService.findByCredentials(email, newPassword)).thenReturn(optUpDbUser);
-
-        Optional<User> returnedUser = authService.updatePassword(email, wrongPassword, newPassword);
-
-        Assertions.assertNull(returnedUser);
+        Assertions.assertEquals(Optional.of(nayBoolen), returnedValue);
     }
 
     }

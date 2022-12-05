@@ -1,11 +1,14 @@
 package com.revature.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.dtos.LoginRequest;
-import com.revature.dtos.RegisterRequest;
+import com.revature.dtos.ChangePasswordRequest;
+import com.revature.dtos.login.LoginRequest;
+import com.revature.dtos.login.LoginResponse;
+import com.revature.dtos.registration.RegisterRequest;
 import com.revature.models.Product;
 import com.revature.models.User;
 import com.revature.services.AuthService;
+import com.revature.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,27 +36,33 @@ public class AuthControllerTesting {
     private AuthService authService;
     @Mock
     private ObjectMapper objectMapper;
+    @Mock
+    private UserService userService;
 //    @Mock
 //    private HttpSession session;
 
     private LoginRequest loginRequest;
     private LoginRequest badLoginRequest;
+    private RegisterRequest registerRequest;
+    private LoginResponse loginResponse;
+    private ChangePasswordRequest changePasswordRequest;
     private HttpSession session;
     private User newUser;
     private User dbUser;
     private Optional<User> optDbUser;
-    private RegisterRequest registerRequest;
     private String email = "bigboy@sally.forth";
     private String password = "password";
     private String wrongPassword = "passedword";
     private String newPassword = "pastwyrdt";
     private String firstName = "Grimbo";
     private String lastName = "McFulstrom";
+    private String token = "tokenbaybee";
     private ArrayList<Product> wishlist;
     private ArrayList<Product> wishlistUpd;
     private Product product1;
     private Product product2;
     private Product product3;
+    private Boolean aBoolean = true;
 
     @BeforeEach
     public void populateObjects(){
@@ -121,6 +130,20 @@ public class AuthControllerTesting {
         registerRequest.setFirstName(firstName);
         registerRequest.setLastName(lastName);
 
+        changePasswordRequest = new ChangePasswordRequest();
+        changePasswordRequest.setEmail(email);
+        changePasswordRequest.setOldPassword(password);
+        changePasswordRequest.setNewPassword(newPassword);
+
+        loginResponse = new LoginResponse();
+        loginResponse.setId(1);
+        loginResponse.setEmail(email);
+        loginResponse.setFirstName(firstName);
+        loginResponse.setLastName(lastName);
+        loginResponse.setToken(token);
+        loginResponse.setWishList(wishlist);
+
+
     }
 
 
@@ -128,12 +151,14 @@ public class AuthControllerTesting {
 
     @Test
     public void givenLoginRequestAndSession_login_ReturnsResponseEntityUser(){
-        Mockito.when(authService.findByCredentials(loginRequest.getEmail(), loginRequest.getPassword()))
-                .thenReturn(Optional.ofNullable(dbUser));
+//        Mockito.when(authService.findByCredentials(loginRequest.getEmail(), loginRequest.getPassword()))
+//                .thenReturn(Optional.ofNullable(dbUser));
 
-        ResponseEntity<User> responseEntity = authController.login(loginRequest,session);
+        Mockito.when(authService.userLogin(loginRequest)).thenReturn(Optional.of(loginResponse));
 
-        Assertions.assertEquals(ResponseEntity.ok(optDbUser.get()), responseEntity);
+        ResponseEntity<LoginResponse> responseEntity = authController.login(loginRequest,session);
+
+        Assertions.assertEquals(ResponseEntity.ok(loginResponse), responseEntity);
     }
 
     @Test
@@ -141,7 +166,7 @@ public class AuthControllerTesting {
         Mockito.when(authService.findByCredentials(badLoginRequest.getEmail(), badLoginRequest.getPassword()))
                 .thenReturn(Optional.empty());
 
-        ResponseEntity<User> responseEntity = authController.login(badLoginRequest,session);
+        ResponseEntity<LoginResponse> responseEntity = authController.login(badLoginRequest,session);
 
         Assertions.assertEquals(ResponseEntity.badRequest().build(), responseEntity);
 
@@ -150,26 +175,27 @@ public class AuthControllerTesting {
 
     @Test
     public void givenSession_logout_returnsResponseEntityTrue(){
-        ResponseEntity<Boolean> response = authController.logout(session);
+        ResponseEntity<Boolean> response = authController.logout();
 
         Assertions.assertEquals(ResponseEntity.ok(true), response);
     }
 
-//    @Test
-//    public void givenRegisterRequest_register_returnsResponseEntityUser(){
-//        Mockito.when(authService.register(newUser)).thenReturn(dbUser);
-//
-//        ResponseEntity<User> responseEntity = authController.register(registerRequest);
-//
-//        Assertions.assertEquals(ResponseEntity.status(HttpStatus.CREATED).body(dbUser), responseEntity);
-//    }
+    @Test
+    public void givenRegisterRequest_register_returnsResponseEntityUser(){
+        Mockito.when(authService.register(registerRequest)).thenReturn(aBoolean);
+
+        ResponseEntity<Boolean> responseEntity = authController.register(registerRequest);
+
+        Assertions.assertEquals(ResponseEntity.status(HttpStatus.CREATED).body(aBoolean), responseEntity);
+    }
 
     @Test
     public void givenUser_updateUser_returnsResponseEntityUser(){
         User updUser = dbUser;
         updUser.setWishList(wishlistUpd);
+
         Mockito.when(authService.findUserById(1)).thenReturn(dbUser);
-        Mockito.when(authService.register(updUser)).thenReturn(updUser);
+        Mockito.when(userService.save(updUser)).thenReturn(updUser);
 
         ResponseEntity<User> responseEntity = authController.updateUser(updUser);
 
@@ -198,9 +224,9 @@ public class AuthControllerTesting {
         User updUser = dbUser;
         updUser.setPassword(newPassword);
 
-        Mockito.when(authService.updatePassword(email, password, newPassword)).thenReturn(Optional.of(updUser));
+        Mockito.when(authService.updatePassword(changePasswordRequest)).thenReturn(Optional.of(aBoolean));
 
-        ResponseEntity<User> responseEntity = authController.updatePassword(email, password, newPassword,session);
+        ResponseEntity<Boolean> responseEntity = authController.updatePassword(changePasswordRequest);
 
         Assertions.assertEquals(ResponseEntity.ok().build(), responseEntity);
 
@@ -210,9 +236,9 @@ public class AuthControllerTesting {
     @Test
     public void givenEmailWrongPasswordNewPasswordSession_updatePassword_returnsResponseEntityUser(){
 
-        Mockito.when(authService.updatePassword(email, wrongPassword, newPassword)).thenReturn(Optional.empty());
+        Mockito.when(authService.updatePassword(changePasswordRequest)).thenReturn(Optional.empty());
 
-        ResponseEntity<User> responseEntity = authController.updatePassword(email, password, newPassword,session);
+        ResponseEntity<Boolean> responseEntity = authController.updatePassword(changePasswordRequest);
 
         Assertions.assertEquals(ResponseEntity.badRequest().build(), responseEntity);
 
