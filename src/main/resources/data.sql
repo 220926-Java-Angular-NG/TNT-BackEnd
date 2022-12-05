@@ -1,10 +1,4 @@
-<<<<<<< HEAD:src/main/resources/data-postgres.sql
-DELETE FROM product WHERE id != 0;
 INSERT INTO product (id, quantity, price, description, image, name, featured) VALUES (
-=======
-INSERT INTO product (id, quantity, price, description, image, name, featured) VALUES
-(
->>>>>>> f6bec64e7049b695719cee6bbd040dbf5c17bf8d:src/main/resources/data.sql
     1,
     4,
     36.79,
@@ -264,17 +258,4 @@ INSERT INTO product (id, quantity, price, description, image, name, featured) VA
     'https://s7d2.scene7.com/is/image/PetSmart/5319152?$sclp-prd-main_large$',
     'Hamster Food',
     false
-);
-
-<<<<<<< HEAD:src/main/resources/data-postgres.sql
-DELETE FROM users WHERE id != 0;
-=======
-
->>>>>>> f6bec64e7049b695719cee6bbd040dbf5c17bf8d:src/main/resources/data.sql
-INSERT INTO users (id, email, password, first_name, last_name) VALUES (
-    1,
-    'testuser@gmail.com',
-    'password',
-    'Test',
-    'User'
 );

@@ -16,6 +16,17 @@ import java.util.NoSuchElementException;
 
 @SpringBootTest
 class ECommerceApplicationTests {
+<<<<<<< HEAD
+
+	private List<User> testUsers = new ArrayList<User>();
+	@Autowired
+	private AuthService authService;
+
+	@Autowired
+	private AuthController authController;
+
+
+=======
 //
 //	private List<User> testUsers = new ArrayList<User>();
 //	@Autowired
@@ -95,5 +106,6 @@ class ECommerceApplicationTests {
 //		Assertions.assertEquals(authService.findByCredentials(email,newPassword).get().getId(),tester.getId());
 //
 //	}
+>>>>>>> origin/Dev
 
 }
