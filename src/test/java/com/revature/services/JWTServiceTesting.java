@@ -73,7 +73,7 @@ public class JWTServiceTesting {
                .setExpiration(new Date(System.currentTimeMillis()+ (24 * HOUR)))
                .setIssuedAt(new Date(System.currentTimeMillis()))
                .signWith(SignatureAlgorithm.HS256,THAT_NULL_SECRET_KEY).compact();
-
+       
         Mockito.when(jwtSwervice.generateToken(claims, user.getEmail())).thenReturn(tokent);
 
         String tanket = jwtService.generateToken(user);
