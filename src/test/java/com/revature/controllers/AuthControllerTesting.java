@@ -155,14 +155,14 @@ public class AuthControllerTesting {
         Assertions.assertEquals(ResponseEntity.ok(true), response);
     }
 
-    @Test
-    public void givenRegisterRequest_register_returnsResponseEntityUser(){
-        Mockito.when(authService.register(newUser)).thenReturn(dbUser);
-
-        ResponseEntity<User> responseEntity = authController.register(registerRequest);
-
-        Assertions.assertEquals(ResponseEntity.status(HttpStatus.CREATED).body(dbUser), responseEntity);
-    }
+//    @Test
+//    public void givenRegisterRequest_register_returnsResponseEntityUser(){
+//        Mockito.when(authService.register(newUser)).thenReturn(dbUser);
+//
+//        ResponseEntity<User> responseEntity = authController.register(registerRequest);
+//
+//        Assertions.assertEquals(ResponseEntity.status(HttpStatus.CREATED).body(dbUser), responseEntity);
+//    }
 
     @Test
     public void givenUser_updateUser_returnsResponseEntityUser(){
