@@ -1,12 +1,14 @@
 package com.revature.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.dtos.ChangePasswordRequest;
 import com.revature.dtos.login.LoginRequest;
 import com.revature.dtos.login.LoginResponse;
 import com.revature.dtos.registration.RegisterRequest;
 import com.revature.models.Product;
 import com.revature.models.User;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.dynamic.DynamicType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -96,18 +98,18 @@ public class AuthService  implements UserDetailsService {
 
     // Start of change user password logic.
 
-    public Optional<User> updatePassword(String email,String oldPassword,String newPassword){
-        User user = userService.findUserByEmail(email);
+    public Optional<Boolean> updatePassword(ChangePasswordRequest updatePassword){
+        String oldPassword = updatePassword.getOldPassword();
+        User user = userService.findUserByEmail(updatePassword.getEmail());
 
-        System.out.println(oldPassword);
-        System.out.println(user.getPassword());
 
-        if(oldPassword.equals(user.getPassword())){
+        if(passwordEncoder.matches(oldPassword,user.getPassword())){
+            String newPassword = passwordEncoder.encode(updatePassword.getNewPassword());
             user.setPassword(newPassword);
             userService.save(user);
-            return userService.findByCredentials(email,newPassword);
+            return Optional.of(new Boolean(true));
         }else {
-            return null;
+            return Optional.of(new Boolean(false));
         }
     }
 
