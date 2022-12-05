@@ -2,20 +2,19 @@ package com.revature.controllers;
 
 
 import com.revature.dtos.ChangePasswordRequest;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.dtos.LoginRequest;
-import com.revature.dtos.RegisterRequest;
+import com.revature.dtos.login.LoginRequest;
+import com.revature.dtos.login.LoginResponse;
+import com.revature.dtos.registration.RegisterRequest;
 import com.revature.models.Product;
 import com.revature.models.User;
 import com.revature.services.AuthService;
+import com.revature.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,12 +25,13 @@ import java.util.Optional;
 public class AuthController {
 
     private final AuthService authService;
-    private final ObjectMapper objectMapper;
+    private final UserService userService;
+
 
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
-        Optional<User> optional = authService.findByCredentials(loginRequest.getEmail(), loginRequest.getPassword());
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
+        Optional<LoginResponse> optional = authService.userLogin(loginRequest);
         if(!optional.isPresent()) {
             return ResponseEntity.badRequest().build();
         }
@@ -39,18 +39,21 @@ public class AuthController {
         session.setAttribute("user", optional.get());
 
         // get current user, from users session cookie, and convert it to a User object
-        User currUser = (User)session.getAttribute("user");
-        // now have access to all of user's information
-        System.out.println(currUser.getId() + currUser.getEmail());
+//<<<<<<< HEAD
+//=======
+//        User currUser = (User)session.getAttribute("user");
+//        // now have access to all of user's information
+//        System.out.println(currUser.getId() + currUser.getEmail());
+//>>>>>>> origin/Dev
 
 
         return ResponseEntity.ok(optional.get());
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Boolean> logout(HttpSession session) {
+    public ResponseEntity<Boolean> logout() {
 //        System.out.println("HELLO THERE" + session.getAttribute("user"));
-        session.removeAttribute("user");
+//        session.removeAttribute("user");
 
         return ResponseEntity.ok(true);
     }
@@ -58,15 +61,9 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest registerRequest) {
-        User created = new User(0,
-                registerRequest.getEmail(),
-                registerRequest.getPassword(),
-                registerRequest.getFirstName(),
-                registerRequest.getLastName(),
-                new ArrayList<>());
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
+    public ResponseEntity<Boolean> register(@RequestBody RegisterRequest registerRequest) {
+        System.out.println(registerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequest));
     }
 
     @PostMapping("/wishlist")
@@ -74,7 +71,7 @@ public class AuthController {
         int userId = user.getId();
         User dbUser = authService.findUserById(userId);
         dbUser.setWishList(user.getWishList());
-        authService.register(dbUser);
+        userService.save(dbUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(dbUser);
     }
 
@@ -88,7 +85,7 @@ public class AuthController {
 
 
     @PostMapping("/change-password-proto")
-    public ResponseEntity<User> updatePassword(String email, String oldPassword, String newPassword,HttpSession session){
+    public ResponseEntity<User> updatePassword(String email, String oldPassword, String newPassword){
 
 
         Optional<User> optional = authService.updatePassword(email,oldPassword,newPassword);
@@ -97,7 +94,7 @@ public class AuthController {
             return ResponseEntity.badRequest().build();
         }
 
-        session.removeAttribute("user");
+//        session.removeAttribute("user");
 
         return ResponseEntity.ok().build();
 
@@ -105,15 +102,15 @@ public class AuthController {
 
 
     /*
-//    @PostMapping("/change-password")
-//    public User changePassword(@RequestBody ChangePasswordRequest change){
-//        System.out.println(change.getEmail());
-//        System.out.println(change.getOldPassword());
-//        System.out.println(change.getNewPassword());
-//        System.out.println();
-//
-//        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
-//    }
+    @PostMapping("/change-password")
+    public User changePassword(@RequestBody ChangePasswordRequest change){
+        System.out.println(change.getEmail());
+        System.out.println(change.getOldPassword());
+        System.out.println(change.getNewPassword());
+        System.out.println();
+
+        return authService.testChangePassword(change.getEmail(),change.getOldPassword(),change.getNewPassword());
+    }
     */
 
 }

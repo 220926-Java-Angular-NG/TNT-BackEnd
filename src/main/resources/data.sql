@@ -1,5 +1,4 @@
-INSERT INTO product (id, quantity, price, description, image, name, featured) VALUES
-(
+INSERT INTO product (id, quantity, price, description, image, name, featured) VALUES (
     1,
     4,
     36.79,
@@ -259,13 +258,4 @@ INSERT INTO product (id, quantity, price, description, image, name, featured) VA
     'https://s7d2.scene7.com/is/image/PetSmart/5319152?$sclp-prd-main_large$',
     'Hamster Food',
     false
-);
-
-
-INSERT INTO users (id, email, password, first_name, last_name) VALUES (
-    1,
-    'testuser@gmail.com',
-    'password',
-    'Test',
-    'User'
 );
