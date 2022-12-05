@@ -2,6 +2,8 @@ package com.revature.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dtos.ChangePasswordRequest;
+import com.revature.dtos.login.LoginRequest;
+import com.revature.dtos.login.LoginResponse;
 import com.revature.dtos.registration.RegisterRequest;
 import com.revature.models.Product;
 import com.revature.models.User;
@@ -16,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +36,8 @@ public class AuthServiceTesting {
     private PasswordEncoder passwordEncoder;
     @Mock
     private ObjectMapper objectMapper;
+    @Mock
+    private JWTService jwtService;
 
     private User newUser;
     private User dbUser;
@@ -53,7 +59,9 @@ public class AuthServiceTesting {
     private Boolean aBoolean = true;
     private Boolean nayBoolen = false;
     private PasswordEncoder newPassEnc = new BCryptPasswordEncoder();
-
+    private LoginRequest loginRequest;
+    private LoginResponse loginResponse;
+    private String token;
 
     @BeforeEach
     public void populateUserObjects(){
@@ -92,6 +100,20 @@ public class AuthServiceTesting {
         changePasswordRequest.setNewPassword(newPassword);
         badChangePasswordRequest = changePasswordRequest;
         badChangePasswordRequest.setOldPassword(wrongPassword);
+
+        loginRequest = new LoginRequest();
+        loginRequest.setEmail(email);
+        loginRequest.setPassword(password);
+
+        token = "token";
+
+        loginResponse = new LoginResponse();
+        loginResponse.setId(1);
+        loginResponse.setEmail(email);
+        loginResponse.setToken(token);
+        loginResponse.setFirstName(firstName);
+        loginResponse.setLastName(lastName);
+        loginResponse.setWishList(new ArrayList());
     }
 
     @Test
@@ -174,6 +196,28 @@ public class AuthServiceTesting {
         Optional<Boolean> returnedValue = authService.updatePassword(badChangePasswordRequest);
 
         Assertions.assertEquals(Optional.of(nayBoolen), returnedValue);
+    }
+
+    @Test
+    public void givenValidLoginRequest_login_returnOptUser(){
+        Mockito.when(userService.findUserByEmail(loginRequest.getEmail())).thenReturn(dbUser);
+        Mockito.when(passwordEncoder.matches(loginRequest.getPassword(), dbUser.getPassword())).thenReturn(true);
+        Mockito.when(jwtService.generateToken(dbUser)).thenReturn(token);
+
+        Optional<LoginResponse> returnedResponse = authService.userLogin(loginRequest);
+
+        Assertions.assertEquals(returnedResponse.get().getId(), dbUser.getId());
+        Assertions.assertEquals(returnedResponse.get().getToken(), token);
+    }
+
+    @Test
+    public void givenInvalidLoginRequest_login_returnEmptyOpt(){
+        Mockito.when(userService.findUserByEmail(loginRequest.getEmail())).thenReturn(dbUser);
+        Mockito.when(passwordEncoder.matches(wrongPassword, dbUser.getPassword())).thenReturn(false);
+
+        Optional<LoginResponse> returnedResponse = authService.userLogin(loginRequest);
+
+        Assertions.assertEquals(returnedResponse.isPresent(), false);
     }
 
     }
