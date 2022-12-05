@@ -85,7 +85,7 @@ public class AuthController {
 
 
     @PostMapping("/change-password-proto")
-    public ResponseEntity<Boolean> updatePassword(ChangePasswordRequest updatePassword){
+    public ResponseEntity<Boolean> updatePassword(@RequestBody ChangePasswordRequest updatePassword){
 
 
         Optional<Boolean> optional = authService.updatePassword(updatePassword);
