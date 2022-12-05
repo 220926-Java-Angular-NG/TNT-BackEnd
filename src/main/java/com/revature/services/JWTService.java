@@ -26,29 +26,32 @@ public class JWTService {
         return extractClaim(token,Claims::getSubject);
     }
 
-    private Date extractDate(String token){
-        return extractClaim(token,Claims::getExpiration);
-    }
-
-    private <T> T extractClaim(String token,Function<Claims,T> claimsResolver){
-        Claims claims = extractAllClaims(token);
-        return claimsResolver.apply(claims);
-    }
-
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(THAT_NULL_SECRET_KEY).parseClaimsJws(token).getBody();
-    }
-
-    private Boolean isTokenExpired(String token){
-        return extractDate(token).before(new Date());
-    }
-
     public String generateToken(User user){
         Map<String,Object> claims = new HashMap<String,Object>();
         return generateToken(claims,user.getEmail());
     }
 
-    private String generateToken(Map<String,Object> claims,String subject){
+
+
+    //helper methods begin here
+    public Date extractDate(String token){
+        return extractClaim(token,Claims::getExpiration);
+    }
+
+    public <T> T extractClaim(String token,Function<Claims,T> claimsResolver){
+        Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    public Claims extractAllClaims(String token) {
+        return Jwts.parser().setSigningKey(THAT_NULL_SECRET_KEY).parseClaimsJws(token).getBody();
+    }
+
+    public Boolean isTokenExpired(String token){
+        return extractDate(token).before(new Date());
+    }
+
+    public String generateToken(Map<String,Object> claims,String subject){
         return Jwts.builder().setClaims(claims)
                 .setSubject(subject)
                 .setExpiration(new Date(System.currentTimeMillis()+ (24 * HOUR)))
