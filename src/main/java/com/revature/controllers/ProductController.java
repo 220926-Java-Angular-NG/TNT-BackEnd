@@ -23,15 +23,16 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @Authorized
+//    @Authorized
     @GetMapping
-    public ResponseEntity<List<Product>> getInventory(HttpSession session) {
+    public ResponseEntity<List<Product>> getInventory() {
+        System.out.println("I AM GETTING THE THINGS ");
         // will print out the full user that requested this endpoint
-        System.out.println(session.getAttribute("user"));
+//        System.out.println(session.getAttribute("user"));
         return ResponseEntity.ok(productService.findAll());
     }
 
-    @Authorized
+//    @Authorized
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") int id) {
         Optional<Product> optional = productService.findById(id);
@@ -42,13 +43,13 @@ public class ProductController {
         return ResponseEntity.ok(optional.get());
     }
 
-    @Authorized
+//    @Authorized
     @PutMapping
     public ResponseEntity<Product> upsert(@RequestBody Product product) {
         return ResponseEntity.ok(productService.save(product));
     }
 
-    @Authorized
+//    @Authorized
     @PatchMapping
     public ResponseEntity<List<Product>> purchase(@RequestBody List<ProductInfo> metadata) { 	
     	List<Product> productList = new ArrayList<Product>();
@@ -75,7 +76,7 @@ public class ProductController {
         return ResponseEntity.ok(productList);
     }
 
-    @Authorized
+//    @Authorized
     @DeleteMapping("/{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable("id") int id) {
         Optional<Product> optional = productService.findById(id);

@@ -2,14 +2,18 @@ package com.revature.services;
 
 import com.revature.models.User;
 import com.revature.repositories.UserRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService{
 
     private final UserRepository userRepository;
+
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -24,9 +28,13 @@ public class UserService {
     }
 
 
-
-
     public User findUserByEmail(String email){
         return userRepository.findByEmail(email);
     }
+
+    public User findUserById(int id) {
+        return userRepository.findById(id);
+    }
+
+
 }

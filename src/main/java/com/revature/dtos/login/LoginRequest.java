@@ -1,4 +1,4 @@
-package com.revature.dtos;
+package com.revature.dtos.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

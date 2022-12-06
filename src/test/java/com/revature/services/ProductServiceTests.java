@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.dtos.ProductInfo;
 import com.revature.models.Product;
 import com.revature.repositories.ProductRepository;
 import org.junit.jupiter.api.Assertions;
@@ -10,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,9 @@ public class ProductServiceTests {
     private Product newProduct;
     private Product dbProduct;
     private Optional<Product> optDbProduct;
+    private List<Product> productList;
+    private ProductInfo productInfo;
+    private List<ProductInfo> metadata;
 
 
 
@@ -52,6 +57,14 @@ public class ProductServiceTests {
         dbProduct.setName("Grek");
         dbProduct.setFeatured(true);
         optDbProduct = Optional.ofNullable(dbProduct);
+
+        productInfo = new ProductInfo(1,2);
+
+        productList = new ArrayList<Product>();
+        productList.add(dbProduct);
+
+        metadata = new ArrayList<ProductInfo>();
+        metadata.add(productInfo);
     }
 
 
@@ -99,6 +112,16 @@ public class ProductServiceTests {
         Assertions.assertEquals(dbProduct.isFeatured(), createdProduct.isFeatured());
 
     }
+
+    @Test
+    public void givenProductListAndMetadate_saveAll_returnsProductList(){
+        Mockito.when(productRepository.saveAll(productList)).thenReturn(productList);
+
+        List<Product> returnedList = productService.saveAll(productList,metadata);
+
+        Assertions.assertEquals(productList.get(0).getId(), returnedList.get(0).getId());
+    }
+
 
     @Test
     public void givenNull_findAllByFeaturedTrue_returnsProductList(){
