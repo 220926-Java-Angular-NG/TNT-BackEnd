@@ -38,7 +38,7 @@ public class JWTServiceTesting {
     private String wrongPassword = "wrongpassword";
     private String firstName = "matt";
     private String lastName = "hanson";
-    private String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaGFuc29uQGdtYWlsLmNvbSIsImV4cCI6MTY3MDM1NDc5NCwiaWF0IjoxNjcwMjY4Mzk0fQ.wyrV56WhYsA04WWVtndIRpnoqsEIIvp8ypuaccv29y8";
+    private String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtaGFuc29uQGdtYWlsLmNvbSIsImV4cCI6MTY3MDUyMzk3MSwiaWF0IjoxNjcwNDM3NTcxfQ.7jCRpvKOULPN-jqIFHAZoFMyhIL08PapmhpFtPsn5p8";
 
     Map<String,Object> claims = new HashMap<String,Object>();
 
